@@ -1,0 +1,22 @@
+{
+    admin off
+    auto_https off
+}
+
+http://127.0.0.1:3000 {
+    bind 127.0.0.1
+
+    @api path /api/v1 /api/v1/*
+    handle @api {
+        reverse_proxy 127.0.0.1:8000
+    }
+
+    @supabase path /auth/v1 /auth/v1/* /storage/v1 /storage/v1/* /realtime/v1 /realtime/v1/*
+    handle @supabase {
+        reverse_proxy 127.0.0.1:54321
+    }
+
+    handle {
+        reverse_proxy 127.0.0.1:3001
+    }
+}

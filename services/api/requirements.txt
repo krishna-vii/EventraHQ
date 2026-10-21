@@ -1,0 +1,7 @@
+# Direct runtime dependencies, verified against PyPI on 2026-10-18.
+fastapi==0.146.0
+pydantic==2.14.1
+uvicorn==0.54.0
+httpx==0.28.1
+certifi==2026.10.18
+psycopg[binary]==3.3.6

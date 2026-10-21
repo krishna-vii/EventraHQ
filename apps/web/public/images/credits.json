@@ -1,0 +1,53 @@
+{
+  "verifiedAt": "2026-10-18",
+  "license": "Pexels License",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "usage": "Illustrative performance photography only. These people do not represent EventraHQ's fictional seed artists or endorse the service.",
+  "assets": [
+    {
+      "file": "/images/live-vocals.jpg",
+      "photographer": "ANTONI SHKRABA production",
+      "source": "https://www.pexels.com/photo/a-woman-holding-a-microphone-8041159/",
+      "download": "https://images.pexels.com/photos/8041159/pexels-photo-8041159.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "width": 1200,
+      "height": 800,
+      "alt": "A vocalist and band performing under blue stage lighting."
+    },
+    {
+      "file": "/images/live-band.jpg",
+      "photographer": "Andre Moura",
+      "source": "https://www.pexels.com/photo/band-performing-on-stage-2658312/",
+      "download": "https://images.pexels.com/photos/2658312/pexels-photo-2658312.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "width": 1200,
+      "height": 798,
+      "alt": "An audience watching a band perform on an illuminated outdoor stage."
+    },
+    {
+      "file": "/images/dj-decks.jpg",
+      "photographer": "Sergey Platonov",
+      "source": "https://www.pexels.com/photo/dj-using-sound-mixer-9731331/",
+      "download": "https://images.pexels.com/photos/9731331/pexels-photo-9731331.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "width": 1200,
+      "height": 800,
+      "alt": "A DJ adjusting a professional mixing desk."
+    },
+    {
+      "file": "/images/classical-violin.jpg",
+      "photographer": "Roxanne Minnish",
+      "source": "https://www.pexels.com/photo/man-in-black-suit-playing-violin-4750670/",
+      "download": "https://images.pexels.com/photos/4750670/pexels-photo-4750670.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "width": 1200,
+      "height": 884,
+      "alt": "Violinists performing together in a concert ensemble."
+    },
+    {
+      "file": "/images/acoustic-sunset.jpg",
+      "photographer": "Philippe Moura",
+      "source": "https://www.pexels.com/photo/street-musician-with-an-electro-acoustic-guitar-and-an-amplifier-singing-into-a-microphone-20142709/",
+      "download": "https://images.pexels.com/photos/20142709/pexels-photo-20142709.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "width": 1200,
+      "height": 1800,
+      "alt": "A musician performs with an acoustic guitar at sunset."
+    }
+  ]
+}

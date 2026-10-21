@@ -1,0 +1,37 @@
+# Run from the qualified WSL2/Linux workstation. Supabase owns the only database.
+name: eventrahq-local-support
+services:
+  redis:
+    image: ${EVENTRA_REDIS_IMAGE:?Set EVENTRA_REDIS_IMAGE to the verified redis@sha256 digest in infra/local/.env}
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction", "--appendonly", "yes", "--appendfsync", "everysec", "--save", ""]
+    ports:
+      - "127.0.0.1:6379:6379"
+    networks:
+      - workstation
+    volumes:
+      - redis-data:/data
+    cpus: 0.5
+    mem_limit: 512m
+    mem_reservation: 256m
+    pids_limit: 64
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  workstation:
+    name: eventra-redis-local
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
+
+volumes:
+  redis-data:

@@ -1,0 +1,7 @@
+Static PostgreSQL parser: pglast v7.21
+Migration: 117 SQL statements; 18 PL/pgSQL routines; PASS
+Tests: 58 SQL statements; 14 PL/pgSQL routines; PASS
+Seed: 1 SQL statement; PASS
+Eight seed rows exactly match API fixtures; PASS
+Supabase CLI 2.121.0 parsed tracked config; startup blocked by missing Docker, not config error.
+Database migration/application, invariant assertions, concurrency and RLS runtime tests NOT executed.

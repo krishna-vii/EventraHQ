@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="128" viewBox="0 0 620 128" fill="none" role="img" aria-labelledby="eventrahq-lockup-title">
+  <title id="eventrahq-lockup-title">EventraHQ</title>
+  <path d="M32 28H92L82 44H48V56H80L70 72H48V84H92L82 100H32V28Z" fill="#5EEAD4"/>
+  <path d="M102 18L106 28L116 32L106 36L102 46L98 36L88 32L98 28L102 18Z" fill="#C4B5FD"/>
+  <!-- Custom geometric lettering; no font files or external resources. -->
+  <g transform="translate(154 42)" stroke="#F2F6FC" stroke-width="6" stroke-linecap="square" stroke-linejoin="round">
+    <path d="M28 0H0V44H28M0 22H23"/>
+    <path d="M43 0L59 44L75 0"/>
+    <path d="M118 0H90V44H118M90 22H113"/>
+    <path d="M134 44V0L164 44V0"/>
+    <path d="M179 0H213M196 0V44"/>
+    <path d="M228 44V0H244C263 0 263 23 244 23H228M244 23L262 44"/>
+    <path d="M276 44L293 0L310 44M282 29H304"/>
+  </g>
+  <g transform="translate(492 42)" stroke="#C4B5FD" stroke-width="6" stroke-linecap="square" stroke-linejoin="round">
+    <path d="M0 0V44M30 0V44M0 22H30"/>
+    <path d="M64 0C42 0 42 44 64 44C86 44 86 0 64 0ZM66 30L84 48"/>
+  </g>
+</svg>

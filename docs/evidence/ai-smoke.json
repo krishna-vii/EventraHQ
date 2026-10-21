@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-18T16:40:31.139Z",
+  "model": "qwen3.5:4b",
+  "context": 2048,
+  "max_output": 512,
+  "elapsed_seconds": 5.4,
+  "source_mode": "fixtures",
+  "result": {
+    "message": "For a celebration in Bengaluru within your budget, we recommend DJ Aarya. They are based in Bengaluru and fit the price range.",
+    "artist_ids": [
+      "7d3c8101-4a10-4d2c-9000-000000000002"
+    ]
+  },
+  "note": "One live functional smoke check, not a capacity or latency qualification."
+}
