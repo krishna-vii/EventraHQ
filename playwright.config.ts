@@ -18,7 +18,7 @@ export default defineConfig({
     { name: "mobile-web", use: { ...devices["Desktop Edge"], viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true } },
   ],
   webServer: {
-    command: "node scripts/dev.mjs",
+    command: process.env.EVENTRA_CONNECTED_TESTS === "1" ? "node scripts/dev.mjs" : "node scripts/dev.mjs --fixtures",
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

@@ -48,7 +48,8 @@ begin
    values((fixture->>'id')::uuid,fixture->>'slug',fixture->>'name',fixture->>'category',fixture->>'city',
      (fixture->>'price_paise')::bigint,fixture->>'tagline',fixture->>'description',
      array(select jsonb_array_elements_text(fixture->'tags')),'published',true,
-     array(select jsonb_array_elements_text(fixture->'event_types')));
+     array(select jsonb_array_elements_text(fixture->'event_types')))
+   on conflict(id) do nothing; -- Catalogue-only fixtures may already have been installed.
  end loop;
  for i in 1..8 loop
    owner:=artist_owners[i];

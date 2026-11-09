@@ -1,8 +1,45 @@
-# Build status — 19 October 2026
+# Build status — 27 October 2026
+
+## Frontend editorial rebuild — 5 November 2026
+
+Implemented the new obsidian/ivory frontend across the landing page and shared route/workspace system, with local editorial fonts and monochrome brand assets. Backend, Supabase, contracts and environment files were verified unchanged against the start-of-task hashes. Lint, TypeScript, production build and route/asset HTTP checks passed. Browser visual and interaction acceptance remains pending because local browser use is disabled. See [Frontend rebuild](FRONTEND_REBUILD.md) for scope and remaining checks.
+
+## Recovery checkpoint — 5 November 2026
+
+The application connection is repaired using the dashboard-verified IPv4 session pooler and the existing restricted runtime credentials. Auth and database checks passed; actual gateway discovery/session/readiness returned HTTP 200. The catalogue contains 120 previously authorized labelled samples. Auth Site URL and exact callback now match 127.0.0.1. Custom email templates remain blocked by missing SMTP; the user explicitly requested email setup be documented as pending.
+
+Repaired shortlist truncation, capped profile lookup, guest-saving on session failure, misleading fallback-image caption, shared branding and narrow-screen category layout. Added consistent vector/installed icons and corrected login heading/action spacing after inspecting saved screenshots. Preserved existing uncommitted work. No destructive migration, persistent test records, commit, push or deployment.
+
+Executed checks: 112 API tests, 2 gateway tests, 18 isolated database tests, hosted rollback workflow assertions, 34 fixture browser cases across initial run and targeted reruns, and 2 real-backend login-screen checks passed. ESLint passed before final CSS/icon-only work. Final production build including TypeScript passed after the last CSS/icon changes. Live visual inspection of the final changes remains unavailable because local browser access is disabled in Work settings.
+
+Full recovery is not accepted: real Auth/email, Storage and payment journeys, full schema drift comparison, concurrent hosted acceptance, complete design/contract review and release operations remain outstanding. See [Recovery report](RECOVERY_REPORT.md) for exact changes, evidence, limitations and run commands. Do not repeat completed checks without a relevant change.
+
 
 In progress. Implemented code is not production-readiness or real-provider acceptance.
 
-## Latest checkpoint: secure development seed command prepared
+## Latest checkpoint: local preview routing repaired and hosted sample catalogue installed
+
+On 27 October, the user reported a service-unavailable message immediately on opening Login. Runtime logs showed `/api/v1/session` and `/api/v1/auth/login` reaching the Next.js server and returning 404, although canonical gateway health checks returned 200. Added a development-only, `APP_ENV=local` rewrite for `/api/v1/:path*` from Next.js back through the canonical gateway. This retains gateway origin checks and backend cookie-write/authorization checks. The production routes manifest contains no rewrites. Both local entry points now return HTTP 200 JSON for session checks; invalid empty login requests reach backend validation (422), foreign origins and cookie writes without the canonical origin remain denied (403), and anonymous private events remain denied (401). Lint, TypeScript, production build, two gateway tests, 110 API tests and 12 desktop/mobile routing/login cases passed. Actual embedded-browser verification was unavailable while browser access was disabled.
+
+The connected EventraHQ development Supabase project is healthy. The read-only setup check passed Auth reachability, the saved publishable key, email confirmation, restricted runtime privileges, all 27 app tables with RLS, private-row isolation and Storage policy definitions. The portfolio bucket is private, allows JPEG/PNG/WebP and has a 5 MiB limit. Existing Auth user count was one and was preserved.
+
+At the user's request, inserted **120 labelled catalogue-only sample artists** into the hosted development database using `scripts/seed-catalogue.sql`, generated from the existing development dataset. Verified 30 artists in each of four categories, 24 in each of five cities, zero unsafe fixture flags, and unchanged zero bookings/payments/reviews. Actual website API discovery returned database mode and 120 artists; city/category filters, pagination and empty search results passed. The isolated PostgreSQL suite now passes 18 checks, including catalogue repeatability and rejection of sample inquiries. No real artist, review, availability or payment is asserted. Full interactive test logins still require Auth Admin access; no Auth tables were modified directly.
+
+Auth dashboard Site URL, callback allowlist and confirmation/recovery templates still require dashboard access. The user agreed to enable browser access and sign in; the browser tool continued to report access disabled at the latest check. The current security advisor additionally reports leaked-password protection disabled (WARN); four internal deny-all RLS tables remain expected INFO notices. No privileges or security settings were weakened. This checkpoint does not claim full Supabase acceptance or deployment readiness.
+
+## Previous checkpoint: customer workspace and event-planning design
+
+Implemented the new design in the existing Next.js marketplace, retaining the ivory, charcoal, teal and champagne identity. Account now has URL-addressable navigation for Overview, Your events, Calendar, Conversations, Bookings, Artist studio, Profile and Notifications; Administration remains conditional on the existing account role. Overview reads actual event, inquiry, booking and notification endpoints. Counts distinguish loading, failure and zero records. Expired payment holds do not create an active-payment reminder. The calendar displays event start dates in the visitor's local time; it does not claim artist availability. Event cards support upcoming/past/all views and search, and link to discovery with city/occasion filters.
+
+The event brief uses three grouped sections and a live date/location/guest/budget summary. Guest drafts and the AI-brief transfer remain available. Client validation catches reversed, past and over-seven-day dates. After a successful event save, a failed inquiry can be retried against the same saved event; a successful submission is disabled to prevent duplicate clicks. An ambiguous network failure before an event ID is received still depends on existing backend behavior; this UI change does not add transaction-level idempotency. No database schema, provider configuration or hosted records changed.
+
+Verification on 27 October: lint, TypeScript and production build passed; **110 API tests** and **2 gateway tests** passed. The fixture browser run passed **36 tests** with two connected-service checks intentionally skipped; those two checks then passed separately against the existing configured backend, for **38 passing browser cases** across desktop and mobile. New checks cover saved-record navigation, calendar selection, error retry, honest empty states, guest privacy, live brief summary, invalid dates, inquiry retry without duplicate events, keyboard navigation and 320–1440 px widths. The initial pass found a narrow navigation/header overflow and a test-clock/server-year mismatch; both were corrected before the final run. Desktop and mobile screenshots were visually inspected for workspace, calendar and planning layouts. Screenshots under `../output/website-design/` use explicitly labelled browser test records, not hosted account data.
+
+The standard local preview is running at `http://127.0.0.1:3000/account`, with the event brief at `/plan`; both returned HTTP 200. Account configuration was checked read-only. Real signup/email, portfolio and payment acceptance remain pending as documented below; no deployment or production-readiness claim is made.
+
+For a repeatable browser fixture run, stop the known development launcher first and run `npm run test:e2e`. Playwright now starts `node scripts/dev.mjs --fixtures`, which disables external database, Auth, hosted AI and payment connections for that process without altering `.env`. If reusing an already-running server, start it explicitly with `npm run dev -- --fixtures`. For connected-service checks, use the standard `npm run dev` server and set `EVENTRA_CONNECTED_TESTS=1`, selecting `tests/browser/login-connection.spec.ts`. Populated workspace scenarios use browser-only response doubles; no test users or transactions are created by this suite.
+
+## Previous checkpoint: secure development seed command prepared
 
 The user requested bulk mock data and working test logins, then chose a secure local setup command when administrative integration access was unavailable. Added `npm run seed:development`, restricted to the approved development project and local environment. It prompts privately for an Auth administrative key and certificate-verified PostgreSQL maintenance URL; neither is retained. It creates 13 confirmed test accounts through Supabase Auth Admin, verifies password login/identity, and saves generated passwords only in ignored `.runtime/mock-logins.json`.
 

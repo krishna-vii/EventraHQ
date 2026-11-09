@@ -4,6 +4,10 @@ EventraHQ is a Next.js/FastAPI artist marketplace in active development. The pub
 
 Without a configured database, discovery uses **eight clearly labeled fictional artists**; guest saved artists and event drafts stay in the browser. Authenticated records use PostgreSQL. Login, uploads and checkout fail visibly when their services are unconfigured. No successful payment or real account journey is claimed yet. See [build evidence](docs/BUILD_STATUS.md).
 
+## Recovery status
+
+See [the 5 November recovery report](docs/RECOVERY_REPORT.md) for verified repairs, remaining acceptance gaps and test evidence. The saved application connection uses the verified session pooler; email setup remains pending by request.
+
 ## Configure Supabase first
 
 Follow [Supabase setup](docs/SUPABASE_SETUP.md). A development project has been identified and approved; credentials must be entered in your own terminal, never chat. For a fresh development database, run `npm run supabase:setup`; for an already migrated database, run `npm run supabase:configure`. Then run `npm run supabase:check` and restart the application. The helper retains only restricted runtime credentials in the ignored root `.env`.
@@ -65,7 +69,7 @@ services/api/.venv/Scripts/python.exe -m pytest services/api/tests
 npm run test:e2e
 ```
 
-The API test command should run from `services/api`, or set its working directory there so `pytest.ini` resolves imports correctly. The browser suite starts the local preview when needed and uses an installed Edge browser. It verifies discovery, shortlists, profile dialogs, event drafts, accessible dialog use, responsive overflow and explicit AI failure behavior. It is desktop/mobile **web** emulation, not native application testing.
+The API test command should run from `services/api`, or set its working directory there so `pytest.ini` resolves imports correctly. The browser suite uses installed Edge and starts a local fixture preview with external account, database and payment connections disabled for that process. Stop your known development launcher before the suite, or start a reusable fixture server with `npm run dev -- --fixtures`; do not reuse the normal connected server for the fixture suite. The saved `.env` is unchanged. Tests cover discovery, shortlists, artist profiles, event drafts, workspace/calendar navigation, loading and error recovery, safe inquiry retries, keyboard access, responsive overflow and explicit AI failure behavior. Populated workspace records are browser-only doubles. It is desktop/mobile **web** emulation, not native application testing. Connected-service checks are opt-in; see [build evidence](docs/BUILD_STATUS.md).
 
 `npm run preflight` reports hardware, tools and reserved ports without changing the system. `npm run test:ai` deliberately loads the real local model, requires at least 4 GiB free RAM and saves one smoke result under ignored `.runtime/`. It is separate from ordinary tests because it uses GPU resources. A smoke pass does not replace the blueprint's sustained capacity and AI evaluation gates.
 

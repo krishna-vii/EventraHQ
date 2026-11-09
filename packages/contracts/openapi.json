@@ -1347,6 +1347,27 @@
               "default": 24,
               "title": "Page Size"
             }
+          },
+          {
+            "name": "artist_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "maxItems": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Artist Ids"
+            }
           }
         ],
         "responses": {

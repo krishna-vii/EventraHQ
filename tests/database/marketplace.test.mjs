@@ -143,6 +143,17 @@ test('marketplace migrations, RLS and transactional lifecycle', {timeout:120000}
   await assert.rejects(command(other,'authorize'));
   await assert.rejects(command(admin,'user_moderate',{user_id:admin,suspended:true,reason:'Forbidden self suspension'}));
  });
+ await t.test('catalogue-only seed is repeatable and preserves existing artists and private records',async()=>{
+  const before=(await db.query('select (select count(*)::int from auth.users) as users,(select count(*)::int from app.bookings) as bookings,(select count(*)::int from app.payments) as payments,(select count(*)::int from app.reviews) as reviews')).rows[0];
+  const sql=await readFile('scripts/seed-catalogue.sql','utf8');
+  await db.exec(sql);
+  assert.deepEqual((await db.query("select count(*)::int as n,count(distinct city)::int as cities,count(distinct category)::int as categories,count(*) filter(where owner_id is not null or not is_fixture or available or rating<>0 or review_count<>0)::int as unsafe from app.artists where slug like 'eventra-sample-%'")).rows[0],{n:120,cities:5,categories:4,unsafe:0});
+  await db.exec(sql);
+  assert.equal((await db.query("select count(*)::int as n from app.artists where slug like 'eventra-sample-%'")).rows[0].n,120);
+  assert.equal((await db.query('select name from app.artists where id=$1',[artist.id])).rows[0].name,profile.name);
+  assert.deepEqual((await db.query('select (select count(*)::int from auth.users) as users,(select count(*)::int from app.bookings) as bookings,(select count(*)::int from app.payments) as payments,(select count(*)::int from app.reviews) as reviews')).rows[0],before);
+  await assert.rejects(command(customer,'inquiry_create',{event_id:event.id,artist_id:(await db.query("select id from app.artists where slug='eventra-sample-001'")).rows[0].id,body:'Must reject sample booking'}));
+ });
  await t.test('bulk development seed uses real workflow constraints, is repeatable, and never inserts payments or reviews',async()=>{
   const seedId=randomUUID();
   const accounts=[];

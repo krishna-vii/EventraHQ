@@ -1,6 +1,10 @@
 # Development test data and login accounts
 
-The seed command is prepared and tested locally. **No hosted seed records or test logins have been created yet.** Run the command below with administrative credentials entered privately. The ordinary `eventra_app` runtime login intentionally cannot perform this maintenance operation.
+**27 October 2026: 120 catalogue-only mock artists are installed in the approved development Supabase project.** They are labelled `[SAMPLE]`, have `is_fixture=true`, no owner, no availability, no ratings or reviews, and cannot receive bookings. There are 30 per category and 24 per city. The website reads them from the database; filtering, pagination, detail lookup and empty results were checked. The existing one Auth user was preserved. No test login accounts, events, bookings or payments were created in this catalogue-only operation.
+
+The broader seed command below remains prepared but unexecuted against hosted Supabase. It creates interactive test accounts and workflow data, and requires administrative credentials entered privately. The ordinary `eventra_app` runtime login intentionally cannot perform this maintenance operation.
+
+The catalogue subset is reproducible from `scripts/prepare-catalogue-seed.py` and the resulting `scripts/seed-catalogue.sql`. Execution is limited operationally to approved development project `kqcevtlhhyxkjnxsjjcz`. The transaction guards against collisions with unrelated artists and never overwrites records. The full seed reuses these catalogue IDs when it is subsequently run. The database suite passes 18 checks, including repeat runs, existing-record preservation and rejection of inquiries for samples.
 
 ## Run from the Desktop project
 
@@ -75,6 +79,6 @@ The command does not turn off RLS, weaken runtime privileges, disable confirmati
 - `npm run seed:development -- --plan`: passed; reports planned counts and `inserted: false`.
 - `npm run test:database`: 17 passed, including the complete seed SQL, row counts, repeat-run behavior and unchanged payment/review counts in isolated PostgreSQL WASM with synthetic platform Auth scaffolding.
 - API/setup/seed Python suite: 110 passed. Auth provisioning tests use provider doubles and cover project guards, collisions, verified identity, password exclusion from SQL and redacted errors.
-- Hosted Auth Admin creation and hosted bulk insertion remain unexecuted until the operator runs the command. No working test credentials are claimed before that.
+- Hosted Auth Admin creation and the full workflow dataset remain unexecuted until the operator runs the command. Only the 120 catalogue fixtures described above have been inserted. No working test credentials are claimed.
 
 Reference: [Supabase Admin user creation](https://supabase.com/docs/reference/python/auth-admin-createuser).

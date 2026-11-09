@@ -36,9 +36,11 @@ class Catalogue:
         """SQL pagination/count; never truncate a growing production catalogue in Python."""
         def read():
             from psycopg.rows import dict_row
-            values = {"search":"", "category":None, "city":"", "genre":"", "event_type":"", "max_price_paise":None, "event_date":None, "page":1, "page_size":24, "sort":"recommended", **filters, "fixtures": self.include_fixtures}
+            values = {"search":"", "category":None, "city":"", "genre":"", "event_type":"", "max_price_paise":None, "event_date":None, "artist_ids":None, "slug":None, "page":1, "page_size":24, "sort":"recommended", **filters, "fixtures": self.include_fixtures}
             values["offset"] = (values["page"]-1)*values["page_size"]
             where = """where (%(fixtures)s or not is_fixture)
+              and (%(artist_ids)s::uuid[] is null or id=any(%(artist_ids)s::uuid[]))
+              and (%(slug)s::text is null or slug=%(slug)s)
               and (%(search)s='' or strpos(lower(name||' '||category||' '||city||' '||tagline||' '||array_to_string(tags,' ')),lower(%(search)s))>0)
               and (%(category)s::text is null or category=%(category)s)
               and (%(city)s='' or lower(city)=lower(%(city)s))
@@ -96,7 +98,16 @@ class Catalogue:
             raise CatalogueUnavailable("The local database catalogue is unavailable. Start the database or explicitly select fixture mode.") from error
 
     async def find(self, artist_id: UUID) -> Artist | None:
+        if self.database_url:
+            items, _ = await self.search(artist_ids=[str(artist_id)], page_size=1)
+            return items[0] if items else None
         return next((artist for artist in await self.all() if artist.id == artist_id), None)
+
+    async def find_slug(self, slug: str) -> Artist | None:
+        if self.database_url:
+            items, _ = await self.search(slug=slug, page_size=1)
+            return items[0] if items else None
+        return next((artist for artist in await self.all() if artist.slug == slug), None)
 
     async def health(self) -> dict[str, str]:
         if not self.database_url:

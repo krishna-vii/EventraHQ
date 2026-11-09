@@ -7,6 +7,13 @@ import { startGateway, ORIGIN } from "./gateway.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 if (existsSync(resolve(root, ".env"))) process.loadEnvFile(resolve(root, ".env"));
+// An explicit, local-only mode keeps UI tests independent of saved provider credentials.
+if (process.argv.includes("--fixtures")) {
+  for (const key of ["DATABASE_URL", "DATABASE_SSLROOTCERT", "SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY", "HOSTED_AI_URL", "HOSTED_AI_KEY", "HOSTED_AI_MODEL", "RAZORPAY_KEY_ID", "RAZORPAY_KEY_SECRET", "RAZORPAY_WEBHOOK_SECRET", "API_HOSTNAME"]) process.env[key] = "";
+  process.env.ALLOW_MANAGED_SERVICES = "false";
+  process.env.INFERENCE_PROVIDER = "ollama";
+  console.log("Local fixture mode: external account, database and payment connections are disabled for this process.");
+}
 const apiRoot = resolve(root, "services/api");
 const python = process.env.EVENTRA_PYTHON || resolve(apiRoot, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
 const next = resolve(root, "node_modules/next/dist/bin/next");

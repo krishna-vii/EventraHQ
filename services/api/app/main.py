@@ -106,11 +106,14 @@ def create_app(settings: Settings | None = None, ollama_transport: httpx.AsyncBa
         sort: Literal["recommended", "price_low", "price_high", "name"] = "recommended",
         page: Annotated[int, Query(ge=1, le=10000)] = 1,
         page_size: Annotated[int, Query(ge=1, le=200)] = 24,
+        artist_ids: Annotated[list[UUID] | None, Query(max_length=200)] = None,
     ):
         if catalogue.mode == "database" and "all" not in catalogue.__dict__:
-            items, total = await catalogue.search(search=search.strip(), category=category, city=city.strip(), genre=genre.strip(), event_type=event_type, max_price_paise=max_price_paise, event_date=event_date, sort=sort, page=page, page_size=page_size)
+            items, total = await catalogue.search(search=search.strip(), category=category, city=city.strip(), genre=genre.strip(), event_type=event_type, max_price_paise=max_price_paise, event_date=event_date, sort=sort, page=page, page_size=page_size, artist_ids=[str(value) for value in artist_ids] if artist_ids is not None else None)
             return ArtistList(items=items, total=total, mode=catalogue.mode, page=page, page_size=page_size)
         items = await eligible(catalogue, search=search, category=category, city=city, genre=genre, event_type=event_type, max_price_paise=max_price_paise, event_date=event_date)
+        if artist_ids is not None:
+            items = [item for item in items if item.id in artist_ids]
         if sort in ("price_low", "price_high"):
             items.sort(key=lambda a: (a.price_paise, a.name, str(a.id)), reverse=sort == "price_high")
         elif sort == "name":
@@ -120,7 +123,7 @@ def create_app(settings: Settings | None = None, ollama_transport: httpx.AsyncBa
 
     @app.get("/api/v1/artists/by-slug/{slug}", response_model=Artist)
     async def artist_slug(slug: str):
-        item = next((a for a in await catalogue.all() if a.slug == slug), None)
+        item = await catalogue.find_slug(slug)
         if not item:
             raise HTTPException(404, "Artist not found.")
         return item

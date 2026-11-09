@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
 
 test('homepage communicates the marketplace and submits working location search', async ({ page }, info) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Extraordinary artists.Unforgettable events.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Some nightsstay with you.');
   await expect(page.locator('.artist-card')).toHaveCount(4);
   await expect(page.locator('.hero-visual img')).toBeVisible();
   await page.locator('img').evaluateAll(images => images.forEach(img => { (img as HTMLImageElement).loading = 'eager'; }));
@@ -82,7 +82,8 @@ test('keyboard filter drawer and narrow viewports stay usable', async ({ page },
     await page.setViewportSize({width,height:900});
     await page.goto('/');
     await expect(page.locator('.hero')).toBeVisible();
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `homepage width ${width}`).toBeTruthy();
+    const overflow = await page.evaluate(() => Array.from(document.querySelectorAll('body *')).filter(el => el.getBoundingClientRect().right > innerWidth + 1).map(el => `${el.tagName}.${el.className}`));
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `homepage width ${width}: ${overflow.join(', ')}`).toBeTruthy();
   }
   await page.setViewportSize({width:390,height:844});
   await page.goto('/artists');

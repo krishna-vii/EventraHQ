@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-labelledby="eventrahq-mark-title">
-  <title id="eventrahq-mark-title">EventraHQ</title>
-  <path d="M32 28H92L82 44H48V56H80L70 72H48V84H92L82 100H32V28Z" fill="#5EEAD4"/>
-  <path d="M102 18L106 28L116 32L106 36L102 46L98 36L88 32L98 28L102 18Z" fill="#C4B5FD"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 48" fill="none"><title>Eventra</title><path d="M7 7h27v8h-1l-2-6H17v13h10v-4h1v11h-1v-5H17v15h14l3-8h1v10H7v-1h4V8H7V7Z" fill="#191A17"/><path d="M3 3h34M3 45h34" stroke="#191A17" stroke-width=".65"/></svg>

@@ -1,5 +1,14 @@
 # Connect EventraHQ to Supabase development
 
+## Current checkpoint — 5 November 2026
+
+The application is connected through the dashboard-verified session pooler `aws-0-ap-northeast-1.pooler.supabase.com:5432` using `eventra_app.kqcevtlhhyxkjnxsjjcz` and the existing role password. TLS verification stays enabled. The direct hostname did not resolve on this workstation. The saved ignored `.env` has been corrected; do not rerun bootstrap.
+
+Live Site URL is now `http://127.0.0.1:3000`, with exact allowed redirect `http://127.0.0.1:3000/auth/confirm`. The dashboard currently requires custom SMTP or a plan upgrade to edit templates. The user deferred email setup: confirmation/recovery templates in this repository are prepared but not applied. Real email-based registration/recovery acceptance is still pending. Later historical text below describing unverified URL settings is superseded by this checkpoint.
+
+See [recovery report](RECOVERY_REPORT.md).
+
+
 Status (19 October 2026): the approved development project `https://kqcevtlhhyxkjnxsjjcz.supabase.co` is migrated and connected from both workspace and Desktop. `npm run supabase:check` passes with the restricted runtime login and the official Supabase CA. **Do not rerun fresh bootstrap on this project.** All 27 app tables have RLS, and the private portfolio bucket is configured. Hosted foundation and rollback workflow SQL tests passed with no synthetic records remaining. Actual email confirmation/recovery, Storage HTTP uploads and payment acceptance remain unverified.
 
 The existing root `.env` already contains the runtime configuration; do not paste credentials into chat or replace it with the example. Restart the local application to load it. The setup instructions below are for new environments and the outstanding dashboard settings. The connected integration manages SQL but has no Auth-settings mutation tool; the accessible browser redirected to sign-in, so Site URL, redirect allowlist and email templates have **not** been verified or changed. See `SUPABASE_VERIFICATION.md` for current evidence and migration history.

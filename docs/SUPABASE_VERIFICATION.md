@@ -1,5 +1,11 @@
 # Hosted Supabase verification — 19 October 2026
 
+## Update — 27 October 2026
+
+Rechecked the installed development project using the Supabase connector and `npm run supabase:check`: Auth, restricted runtime access, all 27 RLS-enabled app tables and private portfolio policies pass. The `artist-portfolios` bucket is private, 5 MiB, JPEG/PNG/WebP. Inserted 120 explicitly labelled catalogue-only sample artists as requested; the existing one Auth user remains unchanged, with no bookings, payments or reviews. The actual website API returns the samples in database mode and filtering/pagination checks pass. No full interactive test accounts were provisioned. See [test data](TEST_DATA.md).
+
+Current advisor results include one WARN for disabled leaked-password protection and four expected INFO findings on internal deny-all tables. Auth dashboard callback/template settings and real email/Storage acceptance remain outstanding pending browser/dashboard access. Earlier statements below describing zero artists or zero warnings are historical and superseded by this update.
+
 Approved development project: `kqcevtlhhyxkjnxsjjcz` / EventraHQ, active and healthy, PostgreSQL 17, region ap-northeast-1. No project was provisioned and no paid resource or external web deployment was created.
 
 ## Completed
